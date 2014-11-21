@@ -31,26 +31,61 @@ class Todo(object):
 	def getitem(self, number):
 		return self.list[number]
 
+
+class Menu(Frame):
+	def __init__(self,parent):
+		Frame.__init__(self, parent)
+
+		top_menu = Frame(parent)
+		top_menu.pack(side=TOP)
+
+		action_area = Frame(parent)
+		action_area.pack(side=TOP)
+
+		new = Button(top_menu)
+		new.pack(side=LEFT)
+		save = Button(top_menu)
+		save.pack(side=LEFT)
+		load = Button(top_menu)
+		load.pack(side=LEFT)
+
+		entry = Entry(action_area)
+		entry.pack(side=LEFT)
+		add = Button(action_area)
+		add.pack(side=LEFT)
+
+class Multibox(Listbox):
+	def __init__(self,parent):
+		Listbox.__init__(self,parent)
+
+
+
 class Gui(object):
 	def __init__(self,master):
 
-		buttonframe = Frame(master)
-		buttonframe.pack()
-		listframe = Frame(master, bg="white")
-		listframe.pack(fill=BOTH)
+		menu = Menu(master)
+		menu.pack(side=TOP)
+		mainview = Multibox(master)
+		mainview.pack(side=TOP)
 
-		self.entry = Entry(buttonframe)
-		self.entry.pack(side=LEFT)
-		self.button = Button(buttonframe, text="Quit", fg="red")
-		self.button.pack(side=LEFT)
 
-		self.listbox = Listbox(listframe)
-		self.listbox.pack()
+		# self.entry = Entry(buttonframe)
+		# self.entry.pack(side=LEFT)
+		# self.button = Button(buttonframe, text="Quit", fg="red")
+		# self.button.pack(side=LEFT)
 
-		self.listbox.insert(END, "a list entry")
+		# self.listbox = Listbox(listframe)
+		# self.listbox.pack()
 
-		for item in ['one','two','three','four']:
-			self.listbox.insert(END, item)
+		# self.listbox.insert(END, "a list entry")
+
+		# for item in ['one','two','three','four']:
+		# 	self.listbox.insert(END, item)
+
+
+
+
+
 if __name__ == "__main__":
 
 	thingy = Todo()
