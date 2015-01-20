@@ -1,0 +1,45 @@
+How to do turns:
+
+1: It is turn X the situation is Y (say, player is in empty room)
+2: "Welcome to turn X"
+3: Player makes decision (say, move room)
+4: Game increments turn
+5: "Welcome to turn X + 1"
+
+Combat:
+
+1: Player enters room with hostile creature
+2: "You are under attack!"
+
+--EITHER--
+
+3: Player decides to do something invalid (pick up object)
+4: "Are you sure? (creature will get free attack while you try)"
+5: All active creatures compare their speeds and are put in order
+6: Hostile creatures attack
+7: Player action resolved
+8: ongoing effects applied
+9: Turn increments
+
+--OR--
+
+3: Player decides to do a combat manouvre
+4: All active creatures compare their speeds and are put in order, suppose player is basic-attacking
+5: All creatures move in order, in case of a tie, creatures are resolved in a random order
+6: Dead creatures are removed the moment their hp = 0, if that occurs before a creature's turn then they don't get to move
+7: ongoing effects applied
+8: Turn increments
+
+--OR--
+
+3: Player decides to do something more complicated (multi-turn action)
+4: A turn takes 10 time units, a player's base speed is 5 time units, calculate the number of time units an action will take
+5: The player's new speed is 5 + time_units and is considered incapacitated until his action completes
+6: Suppose the player's speed is now 28, and he's casting a complicated spell
+7: enemy creatures attack for free, player's speed is now 18
+8: increment turn
+9: enemy creatures attack for free, player's speed is now 8
+10: increment turn
+11: because player's speed <10 he can move this round. Resolve as with basic attack with player's speed effectively 8
+
+All attacks made can interrupt player's action, if player is interrupted his speed returns to 5 and he is prompted to make a new decision.
