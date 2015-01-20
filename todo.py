@@ -33,6 +33,7 @@ class Todo(object):
 
 
 class Menu(Frame):
+	
 	def __init__(self,parent):
 		Frame.__init__(self, parent)
 
@@ -104,5 +105,5 @@ if __name__ == "__main__":
 
 	root = Tk()
 	gui = Gui(root)
-
-	root.mainloop()
+root
+	.mainloop()
