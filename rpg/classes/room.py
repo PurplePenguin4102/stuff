@@ -1,3 +1,5 @@
+default_description = "You are in a small, white room. Blue gridlines spaced exactly 5 feet apart run along the floor and up the walls. The ceiling disappears into the sky."
+
 class Room(object):
 	'''a Room is the place where creatures inhabit and objects are held.'''
 
@@ -26,3 +28,6 @@ class Room(object):
 
 	def define_exit(self,room):
 		self.exits.append(room)
+
+quit_room = Room(label="quit")
+victory_room = Room(label="win")

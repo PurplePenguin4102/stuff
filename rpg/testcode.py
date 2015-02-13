@@ -1,9 +1,26 @@
-import classes
+from classes.adventurer import Adventurer
+from classes.creature import Creature
+from classes.dungeon import Dungeon
+from classes.room import Room
+from main import Main
+import math, random
 
+Charlie = Adventurer(25)
+r = Room()
 print dir()
 
-clarence = Creature()
+d = Dungeon(1)
 
+enemy1 = Creature(desc = "a pack of mean looking bunnies", looked_at="They don't look like the petting kind", gender="collective")
+enemy2 = Creature(hp=20, dmg=1, speed=3, desc = "a soft, fluffy pillow")
+enemy3 = Creature(desc = "kittens wielding balloons")
+
+e = Dungeon(2)
+
+
+Player = Adventurer(50)
+
+main = Main()
 
 
 ### Test code ### Put if __name__ == "__main__": here later maybe

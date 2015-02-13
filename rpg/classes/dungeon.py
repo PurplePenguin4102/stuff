@@ -1,9 +1,17 @@
+import math, random 
+from room import Room
+
+quit_room = Room(label="quit")
+victory_room = Room(label="win")
+
 class Dungeon(object):
 	'''a dungeon is a generator class which defines which rooms should be linked
 	and whether or not there are secret passages or whatever'''
 
-	def __init__(self, roomlist=[], xtra_rooms=-1, xtra_floors=-1,
+	def __init__(self, internal_no, roomlist=[], xtra_rooms=-1, xtra_floors=-1,
 				 underground=True):
+
+		self.identifier = internal_no
 
 		if xtra_rooms == -1: xtra_rooms = random.randint(1,10)+2
 		if xtra_floors == -1: xtra_floors = random.randint(1,3)
