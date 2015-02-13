@@ -1,4 +1,10 @@
-import dungeon
+import classes
+
+print dir()
+
+clarence = Creature()
+
+
 
 ### Test code ### Put if __name__ == "__main__": here later maybe
 

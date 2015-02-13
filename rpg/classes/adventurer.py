@@ -1,4 +1,4 @@
-import creature
+from creature import Creature
 
 class Adventurer(Creature):
 	'''Adventurer is a type of Creature, the additional functions
