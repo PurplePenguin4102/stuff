@@ -1,5 +1,5 @@
 import random
-from Tkinter import *
+
 import math
 
 possible_jobs = ["Warrior", "Tinker", "Tailor", "Soldier", "Spy", "Archer", "Mage"]
