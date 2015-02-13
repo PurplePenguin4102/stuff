@@ -1,5 +1,6 @@
 import pyglet
 
+
 pyglet.options['debug_lib'] = True 
 
 # music = pyglet.media.load('/home/Penguin/Downloads/song.mp3')

@@ -105,5 +105,4 @@ if __name__ == "__main__":
 
 	root = Tk()
 	gui = Gui(root)
-root
-	.mainloop()
+	mainloop()

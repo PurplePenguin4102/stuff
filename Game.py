@@ -67,9 +67,11 @@ class Main(object):
 
 		print "you have been in combat", combat_turn, "turn(s)"
 
-	def start_game(self):
+	def start_game(self, dungeon):
 		print "Welcome to the dungeons of Ark Thremar! What do you do?"
 		print "It is turn 1"
+		Player.active_room = dungeon.roomlist[0]
+		dungeon.roomlist[0].active = True
 
 class Creature(object):
 	'''Creatures are the basic inhabitants of the world. They have
@@ -77,8 +79,8 @@ class Creature(object):
 	do things like manipulate items, attack each other and level up'''
 
 	def __init__(self, hp=10, dmg=2, speed=5, desc="A nondescript creature",
-				 room="The Nether", is_active=False, looked_at="Sure looks deadly...",
-				 gender="neutral"):
+				 room="The Nether", is_active=False, 
+				 looked_at="Sure looks deadly...", gender="neutral"):
 
 		self.gender = gender
 		self.active = is_active
@@ -109,9 +111,10 @@ class Adventurer(Creature):
 		combat_action = "attack"
 		combat_enemy = cre
 
-	def enter_room(self):
-		self.active_room = roomlist.pop(0)
-		print self.active_room.look_around()
+	def enter_room(self, room=None):
+		if not room:
+			print "You gotta pick a way to go boss..."
+			return
 		self.active_room.activate_creatures()
 		main.next_turn()
 
@@ -134,6 +137,15 @@ class Adventurer(Creature):
 			self.inventory.append(self.active_room.inventory[item])
 			main.next_turn()
 
+	def look_around(self):
+		final_description = self.description
+		if len(self.inhabitants) > 0:
+			final_description += " Inhabiting the room is "
+			for i in self.inhabitants:
+				final_description += "{0}, and ".format(i.description)
+			final_description = final_description[:-6] + "."
+		return final_description
+
 	def look_at_stats(self):
 		print "hp: {0}, dmg: {1}".format(self.hp, self.damage)
 
@@ -144,27 +156,73 @@ class Adventurer(Creature):
 				   "collective" : "They are"}
 		print thing.looked_at, "({} hostile)".format(genders[thing.gender])
 
+class Dungeon(object):
+	'''a dungeon is a generator class which defines which rooms should be linked and whether or not there are secret passages or whatever'''
+
+	def __init__(self, roomlist=[], xtra_rooms=-1, xtra_floors=-1,
+				 underground=True):
+
+		if xtra_rooms == -1: xtra_rooms = random.randint(1,10)+2
+		if xtra_floors == -1: xtra_floors = random.randint(1,3)
+		self.roomlist = roomlist
+		
+		if roomlist == []:
+			for n in range(xtra_rooms):
+				self.roomlist.append(Room())
+		else:
+			self.roomlist = roomlist
+
+		self.make_start_end()
+		self.link_rooms()
+
+		print "Made a dungeon", len(self.roomlist), "rooms long"
+
+	def make_start_end(self):
+		self.roomlist[0].make_start()
+		self.roomlist[0].define_exit(self.roomlist[1])
+
+		self.roomlist[-1].make_goal()
+		self.roomlist[-1].define_exit(self.roomlist[-2])
+
+	def link_rooms(self, max_exits=3):
+		workinglist = self.roomlist[1:-1]
+		
+		for room in workinglist:
+			workinglist.remove(room)
+			exits = random.randint(2,max_exits)
+			while len(room.exits) < exits:
+				room.define_exit(workinglist[random.randint(0,len(workinglist))])
+
 class Room(object):
 	'''a Room is the place where creatures inhabit and objects are held.'''
 
-	def __init__(self, floor=[], inhabs=[]):
+	def __init__(self, inventory=[], inhabs=[], floor=1, exits=[]):
 
-		self.inventory = floor
+		self.inventory = inventory
 		self.inhabitants = inhabs
 		self.description = default_description
-
-	def look_around(self):
-		final_description = self.description
-		if len(self.inhabitants) > 0:
-			final_description += " Inhabiting the room is "
-			for i in self.inhabitants:
-				final_description += "{0}, and ".format(i.description)
-			final_description = final_description[:-6] + "."
-		return final_description
+		self.exits = exits
+		self.active = False
 
 	def activate_creatures(self):
 		for creature in self.inhabitants:
 			creature.active = True
+
+	def make_start(self):
+		self.dung_start = True
+		self.exits.append(quit_room)
+
+	def make_goal(self):
+		self.dung_goal = True
+		self.quest_item = True
+		self.exits.append(victory_room)
+
+	def define_exit(self,room):
+		self.exits.append(room)
+
+quit_room = Room()
+victory_room = Room()
+Player = Adventurer(50)
 
 main = Main()
 
@@ -190,40 +248,42 @@ main = Main()
 
 #This is an example of a generated game
 
-Randy = Adventurer(50)
+Randy = Player
 
 enemy1 = Creature(desc = "a pack of mean looking bunnies", looked_at="They don't look like the petting kind", gender="collective")
 enemy2 = Creature(hp=20, dmg=1, speed=3, desc = "a soft, fluffy pillow")
 enemy3 = Creature(desc = "kittens wielding balloons")
 
-room1 = Room(floor=["Gold and gems"])
-room2 = Room(floor=["Bunny droppings", "distracting bauble"],inhabs=[enemy1])
-room3 = Room(floor=["Feathers", "Balloon strings"],inhabs=[enemy2,enemy3])
-room4 = Room()
+d = Dungeon()
 
-roomlist = [room2,room3,room1,room4]
+
+# room1 = Room(floor=["Gold and gems"])
+# room2 = Room(floor=["Bunny droppings", "distracting bauble"],inhabs=[enemy1])
+# room3 = Room(floor=["Feathers", "Balloon strings"],inhabs=[enemy2,enemy3])
+# room4 = Room()
+
+# roomlist = [room2,room3,room1,room4]
 
 crelist = [Randy, enemy1, enemy2, enemy3]
 
 #This is an example of a player's decisions
 
-main.start_game()
-print "player enters room"
+main.start_game(d)
 Randy.enter_room()
-print "player looks at bunnies"
-Randy.look_at(enemy1)
-print "player wants to pick up bauble"
-Randy.pickup()
-print "player tries again"
-Randy.pickup(1,True)
-Randy.look_at_stats()
-Randy.enter_room()
-Randy.look_at(enemy2)
-Randy.look_at_stats()
+# print "player looks at bunnies"
+# Randy.look_at(enemy1)
+# print "player wants to pick up bauble"
+# Randy.pickup()
+# print "player tries again"
+# Randy.pickup(1,True)
+# Randy.look_at_stats()
+# Randy.enter_room()
+# Randy.look_at(enemy2)
+# Randy.look_at_stats()
 
-adjectives = ["mean looking", "Robot", "laser wielding", "incredibly muscular", "tall", "evil"]
-nouns = ["bunnies", "kittens", "puppies"]
+# adjectives = ["mean looking", "Robot", "laser wielding", "incredibly muscular", "tall", "evil"]
+# nouns = ["bunnies", "kittens", "puppies"]
 
 
-print adjectives[random.randint(0,4)], adjectives[random.randint(0,4)], nouns[random.randint(0,2)]
+# print adjectives[random.randint(0,4)], adjectives[random.randint(0,4)], nouns[random.randint(0,2)]
 
