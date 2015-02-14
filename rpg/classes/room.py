@@ -5,7 +5,7 @@ class Room(object):
 
 	def __init__(self, inventory=[], inhabs=[], floor=1, exits=[], label=""):
 
-		self.label = ""
+		self.label = label
 		self.inventory = inventory
 		self.inhabitants = inhabs
 		self.description = default_description

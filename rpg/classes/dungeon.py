@@ -8,25 +8,27 @@ class Dungeon(object):
 	'''a dungeon is a generator class which defines which rooms should be linked
 	and whether or not there are secret passages or whatever'''
 
-	def __init__(self, internal_no, roomlist=[], xtra_rooms=-1, xtra_floors=-1,
+	def __init__(self, internal_no, roomlist=None, xtra_rooms=-1, xtra_floors=-1,
 				 underground=True):
 
 		self.identifier = internal_no
-
+		
 		if xtra_rooms == -1: xtra_rooms = random.randint(1,10)+2
 		if xtra_floors == -1: xtra_floors = random.randint(1,3)
-		self.roomlist = roomlist
-		
+		if not roomlist: roomlist = []
+
 		if roomlist == []:
-			for n in range(xtra_rooms):
-				self.roomlist.append(Room(label="Room {}".format(n)))
+			roomlist = [Room(label="Room {}".format(n)) for n in range(xtra_rooms)]
+			self.roomlist = roomlist
 		else:
 			self.roomlist = roomlist
+
+		print "Made a dungeon", (len(self.roomlist)-1), "rooms long"
 
 		self.make_start_end()
 		self.link_rooms()
 
-		print "Made a dungeon", len(self.roomlist), "rooms long"
+		# print "Made a dungeon", len(self.roomlist), "rooms long"
 
 	def make_start_end(self):
 		self.roomlist[0].make_start()

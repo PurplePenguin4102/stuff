@@ -21,4 +21,4 @@ class Creature(object):
 		cre1.hp += self.damage*-1
 
 	def attack_enemy(self):
-		self.combat_enemy = Randy
+		print "placeholder string"

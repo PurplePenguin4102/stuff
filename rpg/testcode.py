@@ -1,3 +1,5 @@
+### code testing area ###
+
 from classes.adventurer import Adventurer
 from classes.creature import Creature
 from classes.dungeon import Dungeon
@@ -6,42 +8,30 @@ from main import Main
 import math, random
 
 Charlie = Adventurer(25)
-r = Room()
-print dir()
 
-d = Dungeon(1)
+quit_room = Room(label="quit")
+victory_room = Room(label="win")
+
+Player = Adventurer(50)
+main = Main()
+
+Randy = Player
 
 enemy1 = Creature(desc = "a pack of mean looking bunnies", looked_at="They don't look like the petting kind", gender="collective")
 enemy2 = Creature(hp=20, dmg=1, speed=3, desc = "a soft, fluffy pillow")
 enemy3 = Creature(desc = "kittens wielding balloons")
 
+room1 = Room(floor=["Gold and gems"])
+room2 = Room(floor=["Bunny droppings", "distracting bauble"],inhabs=[enemy1])
+room3 = Room(floor=["Feathers", "Balloon strings"],inhabs=[enemy2,enemy3])
+room4 = Room()
+
+roomlist = [room2,room3,room1,room4]
+
+d = Dungeon(1)
 e = Dungeon(2)
-
-
-Player = Adventurer(50)
-
-main = Main()
-
-
-### Test code ### Put if __name__ == "__main__": here later maybe
-
-#This is an example of a generated game
-
-# Randy = Player
-
-# enemy1 = Creature(desc = "a pack of mean looking bunnies", looked_at="They don't look like the petting kind", gender="collective")
-# enemy2 = Creature(hp=20, dmg=1, speed=3, desc = "a soft, fluffy pillow")
-# enemy3 = Creature(desc = "kittens wielding balloons")
-
-# d = Dungeon()
-
-
-# room1 = Room(floor=["Gold and gems"])
-# room2 = Room(floor=["Bunny droppings", "distracting bauble"],inhabs=[enemy1])
-# room3 = Room(floor=["Feathers", "Balloon strings"],inhabs=[enemy2,enemy3])
-# room4 = Room()
-
-# roomlist = [room2,room3,room1,room4]
+f = Dungeon(3, xtra_rooms=13)
+g = Dungeon(4, roomlist=roomlist)
 
 # crelist = [Randy, enemy1, enemy2, enemy3]
 

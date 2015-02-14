@@ -1,3 +1,5 @@
+import math, random
+
 class Main(object):
 	'''The Main class handles all global effects that happen across turns. 
 	   It also handles combat, the turn ticker and global rolling. Only have 

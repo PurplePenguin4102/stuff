@@ -1,7 +1,7 @@
-import random
-import math
+# import random
+# import math
 
-possible_jobs = ["Warrior", "Tinker", "Tailor", "Soldier", "Spy", "Archer", "Mage"]
+# possible_jobs = ["Warrior", "Tinker", "Tailor", "Soldier", "Spy", "Archer", "Mage"]
 # default_description = "You are in a small, white room. Blue gridlines spaced exactly 5 feet apart run along the floor and up the walls. The ceiling disappears into the sky."
 
 # class Main(object):
@@ -237,6 +237,8 @@ possible_jobs = ["Warrior", "Tinker", "Tailor", "Soldier", "Spy", "Archer", "Mag
 
 # main = Main()
 
+# d = Dungeon()
+# e = Dungeon()
 
 # class Game(object):
 # 	'''Game is a gui and the main human interface for playing the 
@@ -259,7 +261,7 @@ possible_jobs = ["Warrior", "Tinker", "Tailor", "Soldier", "Spy", "Archer", "Mag
 
 #This is an example of a generated game
 
-Randy = Player
+
 
 # enemy1 = Creature(desc = "a pack of mean looking bunnies", looked_at="They don't look like the petting kind", gender="collective")
 # enemy2 = Creature(hp=20, dmg=1, speed=3, desc = "a soft, fluffy pillow")
@@ -275,13 +277,12 @@ Randy = Player
 
 # roomlist = [room2,room3,room1,room4]
 
-crelist = [Randy, enemy1, enemy2, enemy3]
 
 #This is an example of a player's decisions
 
-main.start_game(d)
-Randy.enter_room()
-print Randy.look_around()
+# main.start_game(d)
+# Randy.enter_room()
+# print Randy.look_around()
 # print "player looks at bunnies"
 # Randy.look_at(enemy1)
 # print "player wants to pick up bauble"
