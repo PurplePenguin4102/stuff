@@ -23,7 +23,7 @@ class Dungeon(object):
 		else:
 			self.roomlist = roomlist
 
-		print "Made a dungeon", (len(self.roomlist)-1), "rooms long"
+		# print "Made a dungeon", (len(self.roomlist)-1), "rooms long"
 
 		self.make_start_end()
 		self.link_rooms()
