@@ -19,15 +19,15 @@ class Adventurer(Creature):
 		combat_action = "attack"
 		combat_enemy = cre
 
-	def enter_room(self, room=None):
+	def enter_room(self, room=None, main=None):
 		if room is None:
 			print "You gotta pick a way to go boss..."
 			return
-
+		self.active_room = room
 		self.active_room.activate_creatures()
 		main.next_turn()
 
-	def pickup(self, item=0, choose=False):
+	def pickup(self, item=0, choose=False, main=None):
 		if len(self.active_room.inventory) == 0:
 			print "Nothing here boss..."
 			return
@@ -47,6 +47,7 @@ class Adventurer(Creature):
 			main.next_turn()
 
 	def look_around(self):
+
 		final_description = self.active_room.description
 		if len(self.active_room.inhabitants) > 0:
 			final_description += " Inhabiting the room is "
@@ -56,7 +57,7 @@ class Adventurer(Creature):
 
 		final_description += " There are {} exits to this room:".format(len(self.active_room.exits))
 		for room in self.active_room.exits:
-			final_description += room.label
+			final_description += room.label + " "
 		return final_description
 
 	def look_at_stats(self):

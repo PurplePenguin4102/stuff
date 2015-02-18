@@ -78,7 +78,7 @@ def initiate_dungeon(dun, player = Player, main = main):
 	
 	return play_dungeon(dun,player)
 
-def play_dungeon(dun, player):
+def play_dungeon(dun, player, main=main):
 
 	print "You are at the entrance to the dungeon, you can 'look around', 'look self', and 'enter room'"
 
@@ -88,8 +88,10 @@ def play_dungeon(dun, player):
 			print player.look_around()
 		elif ans == 'look self':
 			print "Your name is %s, your job is %s, you have %shp, and you're currently standing in room %s"%(player.name, player.job, player.hp, player.active_room.label)		
-		elif ans == 'enter room':
-			player.enter_room()	
+		elif ans[:-2] == 'enter room':
+			room_id = int(ans[-1])
+			room = dun.roomlist[room_id]
+			player.enter_room(room, main)	
 		elif ans == 'exit':
 			return end_game()
 		else:

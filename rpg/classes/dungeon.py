@@ -25,7 +25,7 @@ class Dungeon(object):
 
 		# print "Made a dungeon", (len(self.roomlist)-1), "rooms long"
 
-		self.make_start_end()
+		# self.make_start_end()
 		self.link_rooms()
 
 		# print "Made a dungeon", len(self.roomlist), "rooms long"
@@ -38,10 +38,10 @@ class Dungeon(object):
 		self.roomlist[-1].define_exit(self.roomlist[-2])
 
 	def link_rooms(self, max_exits=3):
-		workinglist = self.roomlist[1:-1]
+		workinglist = self.roomlist[:]
 		
 		for room in workinglist:
 			workinglist.remove(room)
 			exits = random.randint(2,max_exits)
 			while len(room.exits) < exits:
-				room.define_exit(workinglist[random.randint(0,len(workinglist))])
+				room.define_exit(workinglist[random.randint(0,len(workinglist)-1)])

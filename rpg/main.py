@@ -17,15 +17,15 @@ class Main(object):
 		self.turn += 1
 		active_creatures = 0
 
-		if not self.is_combat:
-			for cre in crelist:
-				if cre.active:
-					active_creatures += 1
-			if active_creatures > 1:
-				self.is_combat = True
-		else:
-			self.combat_turn += 1
-			self.combat(self.combat_turn)
+		# if not self.is_combat:
+		# 	for cre in crelist:
+		# 		if cre.active:
+		# 			active_creatures += 1
+		# 	if active_creatures > 1:
+		# 		self.is_combat = True
+		# else:
+		# 	self.combat_turn += 1
+		# 	self.combat(self.combat_turn)
 
 		print "It is turn {}".format(self.turn)
 
