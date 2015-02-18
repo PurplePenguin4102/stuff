@@ -25,7 +25,7 @@ class Dungeon(object):
 
 		# print "Made a dungeon", (len(self.roomlist)-1), "rooms long"
 
-		# self.make_start_end()
+		self.make_start_end()
 		self.link_rooms()
 
 		# print "Made a dungeon", len(self.roomlist), "rooms long"

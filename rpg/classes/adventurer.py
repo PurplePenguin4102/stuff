@@ -23,7 +23,11 @@ class Adventurer(Creature):
 		if room is None:
 			print "You gotta pick a way to go boss..."
 			return
-		self.active_room = room
+		elif room not in self.active_room.exits:
+			print "No way there boss..."
+		elif room in self.active_room.exits:
+			self.active_room = room
+		
 		self.active_room.activate_creatures()
 		main.next_turn()
 

@@ -1,8 +1,13 @@
-import dungeon
-import room
-from adventurer import Adventurer
-import creature
+# import dungeon
+# import room
+# from adventurer import Adventurer
+# import creature
 
-print dir()
+# print dir()
 
-clarence = Adventurer(50)
+# clarence = Adventurer(50)
+a = 1
+if type(a) is int:
+	print "True"
+else:
+	print "false"

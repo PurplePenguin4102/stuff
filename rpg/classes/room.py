@@ -3,13 +3,16 @@ default_description = "You are in a small, white room. Blue gridlines spaced exa
 class Room(object):
 	'''a Room is the place where creatures inhabit and objects are held.'''
 
-	def __init__(self, inventory=[], inhabs=[], floor=1, exits=[], label=""):
+	def __init__(self, inventory=[], inhabs=[], floor=1, exits=None, label=""):
 
 		self.label = label
 		self.inventory = inventory
 		self.inhabitants = inhabs
 		self.description = default_description
-		self.exits = exits
+		if exits is None:
+			self.exits = []
+		else:
+			self.exits = exits
 		self.active = False
 
 	def activate_creatures(self):
@@ -31,3 +34,36 @@ class Room(object):
 
 quit_room = Room(label="quit")
 victory_room = Room(label="win")
+
+if __name__ == "__main__":
+
+	quit_room = Room(label="quit")
+	victory_room = Room(label="win")
+
+	rm_1 = Room(floor=["Gold and gems"], label="room 1")
+	rm_2 = Room(floor=["Bunny droppings", "distracting bauble"], label="room 2")
+	rm_3 = Room(floor=["Feathers", "Balloon strings"], label="room 3")
+	rm_4 = Room(label="room 4")
+
+	rm_1.make_start()
+	rm_4.make_goal()
+
+	rm_1.define_exit(rm_2)
+	rm_1.define_exit(rm_3)
+	rm_2.define_exit(rm_1)
+	rm_2.define_exit(rm_4)
+	rm_2.define_exit(rm_3)
+	rm_3.define_exit(rm_1)
+	rm_3.define_exit(rm_2)
+	rm_4.define_exit(rm_2)
+
+	roomlist = [quit_room, victory_room, rm_1, rm_2, rm_3, rm_4]
+
+	for room in rm_3.exits:
+		print room.label
+
+	# for room in roomlist:
+	# 	print room.label
+
+	if rm_2.exits is rm_1.exits:
+		print "it's broken"

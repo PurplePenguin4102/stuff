@@ -3,7 +3,7 @@ from classes.creature import Creature
 from classes.dungeon import Dungeon
 from classes.room import Room
 from main import Main
-import math, random
+import math, random, re
 
 Player = Adventurer(50)
 main = Main()
@@ -88,8 +88,8 @@ def play_dungeon(dun, player, main=main):
 			print player.look_around()
 		elif ans == 'look self':
 			print "Your name is %s, your job is %s, you have %shp, and you're currently standing in room %s"%(player.name, player.job, player.hp, player.active_room.label)		
-		elif ans[:-2] == 'enter room':
-			room_id = int(ans[-1])
+		elif valid_room(ans):
+			room_id = int(ans[10:])
 			room = dun.roomlist[room_id]
 			player.enter_room(room, main)	
 		elif ans == 'exit':
@@ -99,12 +99,20 @@ def play_dungeon(dun, player, main=main):
 
 		print "You can 'look around', 'look self', and 'enter room'"
 		
+def valid_room(usr_in):
+	if (usr_in[:10] == "enter room") and (type(int(usr_in[10:])) is int):
+		return True
+	else:
+		return False
 
 def end_game():
 	print "This is as far as Joey's coded, congratulations :)"
 
 
-# if __name__ == "__main__":
+if __name__ == "__main__":
 
-# 	begin()
+	# print "testing parser"
+	# ans = raw_input()
+	# valid_room(ans)
+	begin()
 	
