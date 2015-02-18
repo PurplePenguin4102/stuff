@@ -12,13 +12,15 @@ class Adventurer(Creature):
 	def __init__(self, hp):
 		Creature.__init__(self, hp, is_active = True, desc="a noble hero")
 		self.job = "warrior"
+		self.active_room = None
+		self.name = "Randy"
 
 	def attack_enemy(self, cre):
 		combat_action = "attack"
 		combat_enemy = cre
 
 	def enter_room(self, room=None):
-		if not room:
+		if room is None:
 			print "You gotta pick a way to go boss..."
 			return
 

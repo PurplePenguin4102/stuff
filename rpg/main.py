@@ -62,8 +62,8 @@ class Main(object):
 
 		print "you have been in combat", combat_turn, "turn(s)"
 
-	def start_game(self, dungeon):
+	def start_game(self, dungeon, adventurer):
 		print "Welcome to the dungeons of Ark Thremar! What do you do?"
 		print "It is turn 1"
-		Player.active_room = dungeon.roomlist[0]
+		adventurer.active_room = dungeon.roomlist[0]
 		dungeon.roomlist[0].active = True

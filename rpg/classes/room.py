@@ -19,7 +19,7 @@ class Room(object):
 	def make_start(self):
 		self.dung_start = True
 		self.exits.append(quit_room)
-		self.description = "You find yourself at the start of the dungeon. You have two options at this point: give up like a little bitch, or onwards to glory!"
+		self.description = "You find yourself at the start of the dungeon. You have two options at this point: give up, or onwards to glory!"
 
 	def make_goal(self):
 		self.dung_goal = True
