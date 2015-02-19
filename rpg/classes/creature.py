@@ -5,8 +5,9 @@ class Creature(object):
 
 	def __init__(self, hp=10, dmg=2, speed=5, desc="A nondescript creature",
 				 room="The Nether", is_active=False, 
-				 looked_at="Sure looks deadly...", gender="neutral"):
+				 looked_at="Sure looks deadly...", gender="neutral", internal=""):
 
+		self.internal = internal
 		self.gender = gender
 		self.active = is_active
 		self.description = desc

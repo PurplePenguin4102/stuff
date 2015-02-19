@@ -9,24 +9,22 @@ class Dungeon(object):
 	and whether or not there are secret passages or whatever'''
 
 	def __init__(self, internal_no, roomlist=None, xtra_rooms=-1, xtra_floors=-1,
-				 underground=True):
+				 underground=True, inhabs=None):
 
 		self.identifier = internal_no
 		
 		if xtra_rooms == -1: xtra_rooms = random.randint(1,10)+2
 		if xtra_floors == -1: xtra_floors = random.randint(1,3)
-		if not roomlist: roomlist = []
-
-		if roomlist == []:
-			roomlist = [Room(label="Room {}".format(n)) for n in range(xtra_rooms)]
-			self.roomlist = roomlist
-		else:
-			self.roomlist = roomlist
+		if roomlist is None: self.roomlist = [Room(label="Room {}".format(n)) for n in range(xtra_rooms)]
+		else: self.roomlist = roomlist
+		if inhabs is None: self.inhabitants = []
+		else: self.inhabitants = inhabs
 
 		# print "Made a dungeon", (len(self.roomlist)-1), "rooms long"
 
 		self.make_start_end()
 		self.link_rooms()
+		self.populate_rooms()
 
 		# print "Made a dungeon", len(self.roomlist), "rooms long"
 
@@ -44,4 +42,9 @@ class Dungeon(object):
 			workinglist.remove(room)
 			exits = random.randint(2,max_exits)
 			while len(room.exits) < exits:
-				room.define_exit(workinglist[random.randint(0,len(workinglist)-1)])
+				room.define_exit(random.choice(workinglist))
+
+	def populate_rooms(self):
+		for cre in self.inhabitants:
+			random.choice(self.roomlist[1:]).inhabitants.append(cre)
+

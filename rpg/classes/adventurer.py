@@ -25,8 +25,11 @@ class Adventurer(Creature):
 			return
 		elif room not in self.active_room.exits:
 			print "No way there boss..."
+			return
 		elif room in self.active_room.exits:
 			self.active_room = room
+		else:
+			pass
 		
 		self.active_room.activate_creatures()
 		main.next_turn()
@@ -50,18 +53,20 @@ class Adventurer(Creature):
 			self.inventory.append(self.active_room.inventory[item])
 			main.next_turn()
 
-	def look_around(self):
+	def look_around(self, room=None):
 
-		final_description = self.active_room.description
-		if len(self.active_room.inhabitants) > 0:
+		if room is None: room = self.active_room
+		
+		final_description = room.description
+		if len(room.inhabitants) > 0:
 			final_description += " Inhabiting the room is "
-			for i in self.inhabitants:
-				final_description += "{0}, and ".format(i.description)
+			for cre in room.inhabitants:
+				final_description += "{0}, and ".format(cre.description)
 			final_description = final_description[:-6] + "."
 
-		final_description += " There are {} exits to this room:".format(len(self.active_room.exits))
-		for room in self.active_room.exits:
-			final_description += room.label + " "
+		final_description += " There are {} exits to this room:".format(len(room.exits))
+		for rm in room.exits:
+			final_description += rm.label + " "
 		return final_description
 
 	def look_at_stats(self):

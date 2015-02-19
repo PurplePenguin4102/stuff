@@ -6,8 +6,6 @@
 # print dir()
 
 # clarence = Adventurer(50)
-a = 1
-if type(a) is int:
-	print "True"
-else:
-	print "false"
+a = "look at bunnies"
+print a[:7]
+print a[8:]
