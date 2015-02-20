@@ -8,8 +8,11 @@ from creature import Creature
 
 # clarence = Adventurer(50)
 
-Creature().make_random()
+enemy = Creature()
+enemy.make_random()
 
-a = "look at bunnies"
-print a[:7]
-print a[8:]
+print enemy.description
+# a = "look at bunnies"
+# print a[:7]
+# print a[8:]
+
