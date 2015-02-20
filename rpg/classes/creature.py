@@ -1,3 +1,5 @@
+from cre_templates import *
+
 class Creature(object):
 	'''Creatures are the basic inhabitants of the world. They have
 	various inherent properties like hit points and damage, and can
@@ -23,3 +25,8 @@ class Creature(object):
 
 	def attack_enemy(self):
 		print "placeholder string"
+
+	def make_random(self):
+		'''Sets a random description variable, internal, and other features'''
+
+		print "lel"

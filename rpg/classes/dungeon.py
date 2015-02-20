@@ -1,5 +1,6 @@
 import math, random 
 from room import Room
+from creature import Creature
 
 quit_room = Room(label="quit")
 victory_room = Room(label="win")
@@ -17,7 +18,9 @@ class Dungeon(object):
 		if xtra_floors == -1: xtra_floors = random.randint(1,3)
 		if roomlist is None: self.roomlist = [Room(label="Room {}".format(n)) for n in range(xtra_rooms)]
 		else: self.roomlist = roomlist
-		if inhabs is None: self.inhabitants = []
+		if inhabs is None: 
+			no_inhabs = random.randint(3,len(self.roomlist))
+			self.inhabitants = [Creature().make_random() for n in range(no_inhabs)]
 		else: self.inhabitants = inhabs
 
 		# print "Made a dungeon", (len(self.roomlist)-1), "rooms long"
@@ -46,5 +49,8 @@ class Dungeon(object):
 
 	def populate_rooms(self):
 		for cre in self.inhabitants:
-			random.choice(self.roomlist[1:]).inhabitants.append(cre)
+			room = random.choice(self.roomlist[1:])
+			room.inhabitants.append(cre)
+			cre.room = room
+
 
