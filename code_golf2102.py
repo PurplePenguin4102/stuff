@@ -1,5 +1,5 @@
-##Code golf for February 21, task is to flip fifty distinct shades of grey on screen. Final solution: 12 lines ##
-
+##Code golf for February 21, task is to flip fifty distinct shades of grey on screen. Final solution: 12 lines, ~400 bytes. ##
+#square size = 32 to explain the magic number, the screen should be 7x8 squares large
 import sys, pygame
 pygame.init()
 variables = width, height, running = 32*7, 32*8, True

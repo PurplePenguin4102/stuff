@@ -1,4 +1,5 @@
 from Tkinter import *
+import sys, os
 
 class Todo(object):
 	def __init__(self):
@@ -14,9 +15,6 @@ class Todo(object):
 			item = (itemdex+1, item[1])
 			self.list[itemdex] = item
 
-	def viewlist(self):
-		return self.list
-
 	def removeitem(self, itemnumber):
 		self.list.pop(itemnumber - 1)
 		self.orderlist()
@@ -30,6 +28,27 @@ class Todo(object):
 
 	def getitem(self, number):
 		return self.list[number]
+
+	def save(self, name):
+		f = open("%s.txt" % name, 'w')
+		f.write("### This list brought to you by todo.py ###\n\n")
+		for item in self.list:
+			f.write("{0}, {1}\n".format(str(item[0]), item[1]))
+		f.close()
+
+	def load(self, name):
+		self.list = []
+		f = open("%s.txt" %name, 'rU')
+		contents = f.read()
+		lines = contents.splitlines()
+		lines = lines[2:]
+		lines = lines[::-1]
+		for line in lines:
+			item = line.split(', ')
+			item = (int(item[0]), item[1])
+			self.additem(item[1])
+
+		f.close()
 
 
 class Menu(Frame):
@@ -61,20 +80,18 @@ class Menu(Frame):
 		item = self.entry.get()
 		gui.add_item(item)
 
-class Multibox(Listbox):
-	def __init__(self,parent):
-		Listbox.__init__(self,parent)
-
-		def print_item(self,item):
-			self.insert(END, item)
-
-
 class Gui(object):
 	def __init__(self,master):
 
-		self.menu = Menu(master)
+		menuframe = Frame(master)
+		menuframe.pack(side=TOP)
+
+		listboxframe = Frame(master)
+		listboxframe.pack(side=TOP)
+
+		self.menu = Menu(menuframe)
 		self.menu.pack(side=TOP)
-		self.mainview = Listbox(master)
+		self.mainview = Listbox(listboxframe)
 		self.mainview.pack(side=TOP)
 
 	def add_item(self,item):
@@ -86,16 +103,20 @@ if __name__ == "__main__":
 	thingy.additem("lol")
 	thingy.additem("kill the president")
 	thingy.additem("do laundry")
-	print thingy.viewlist()
+	print thingy.list, os.getcwd()
 
 	thingy.reorder((thingy.getitem(0)),(thingy.getitem(2)))
 
-	print thingy.viewlist()
+	print thingy.list
 
 	thingy.removeitem(1)
 
-	print thingy.viewlist()
+	print thingy.list
 
-	root = Tk()
-	gui = Gui(root)
-	mainloop()
+	thingy.save("sample")
+	thingy.load("loadtest")
+
+	print thingy.list
+	# root = Tk()
+	# gui = Gui(root)
+	# mainloop()
