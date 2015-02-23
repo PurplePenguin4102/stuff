@@ -43,49 +43,42 @@ class Menu(Frame):
 		action_area = Frame(parent)
 		action_area.pack(side=TOP)
 
-		new = Button(top_menu)
+		new = Button(top_menu, text="new")
 		new.pack(side=LEFT)
-		save = Button(top_menu)
+		save = Button(top_menu, text="save")
 		save.pack(side=LEFT)
-		load = Button(top_menu)
+		load = Button(top_menu, text="load")
 		load.pack(side=LEFT)
 
-		entry = Entry(action_area)
-		entry.pack(side=LEFT)
-		add = Button(action_area)
+		self.entry = Entry(action_area)
+		self.entry.pack(side=LEFT)
+		self.entry.insert(0,"type entry here")
+
+		add = Button(action_area, text="add", command=lambda:self.add_to_list())
 		add.pack(side=LEFT)
+
+	def add_to_list(self):
+		item = self.entry.get()
+		gui.add_item(item)
 
 class Multibox(Listbox):
 	def __init__(self,parent):
 		Listbox.__init__(self,parent)
 
+		def print_item(self,item):
+			self.insert(END, item)
 
 
 class Gui(object):
 	def __init__(self,master):
 
-		menu = Menu(master)
-		menu.pack(side=TOP)
-		mainview = Multibox(master)
-		mainview.pack(side=TOP)
+		self.menu = Menu(master)
+		self.menu.pack(side=TOP)
+		self.mainview = Listbox(master)
+		self.mainview.pack(side=TOP)
 
-
-		# self.entry = Entry(buttonframe)
-		# self.entry.pack(side=LEFT)
-		# self.button = Button(buttonframe, text="Quit", fg="red")
-		# self.button.pack(side=LEFT)
-
-		# self.listbox = Listbox(listframe)
-		# self.listbox.pack()
-
-		# self.listbox.insert(END, "a list entry")
-
-		# for item in ['one','two','three','four']:
-		# 	self.listbox.insert(END, item)
-
-
-
-
+	def add_item(self,item):
+		self.mainview.insert(END,item)
 
 if __name__ == "__main__":
 
