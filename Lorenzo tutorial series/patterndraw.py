@@ -5,13 +5,8 @@ from dictionaries import *
 width = 500
 height = 500
 
-
-
-
 res = (width,height)
-
 screen = pygame.display.set_mode(res)
-
 clock = pygame.time.Clock()
 
 while 1:

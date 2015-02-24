@@ -4,8 +4,6 @@ import random
 from dictionaries import *
 from movepix import *
 
-
-
 #these are used for directions.
 UP = (0,-1)
 LUP = (-1,-1)
@@ -46,10 +44,12 @@ while running:
 
 		elif event.type == pygame.KEYDOWN:
 			if event.key in boxcommands:
-				eval(commands[event.key])
+				eval(boxcommands[event.key])
 
 	clock.tick(120)
 	pygame.display.flip()
+
+'''what follows was originally written by Lorenzo for his pygame tutorial series. Above is my own work based on his
 
 # while running:
 # 	pix.move()
@@ -80,14 +80,6 @@ while running:
 
 
 
-
-
-
-
-
-
-
-
 # while running:
 # 	x = rand(width)
 # 	y = rand(height)
@@ -103,4 +95,4 @@ while running:
 # 			screen.set_at((x_0,y_0),(R,G,B))
 
 # 	pygame.display.flip()
-# 	clock.tick(50)
+# 	clock.tick(50) '''

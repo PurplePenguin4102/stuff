@@ -1,5 +1,4 @@
-import pygame
-import random
+import pygame, random
 
 from dictionaries import colours
 
@@ -11,10 +10,7 @@ res = (width, height)
 running = 1
 LEFT = 1
 
-
 colourkeys = colours.keys()
-
-
 screen = pygame.display.set_mode(res)
 
 while running:
