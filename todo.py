@@ -45,11 +45,8 @@ class Todo(object):
 		lines = lines[::-1]
 		for line in lines:
 			item = line.split(', ')
-			item = (int(item[0]), item[1])
 			self.additem(item[1])
-
 		f.close()
-
 
 class Menu(Frame):
 	
@@ -64,21 +61,42 @@ class Menu(Frame):
 
 		new = Button(top_menu, text="new")
 		new.pack(side=LEFT)
-		save = Button(top_menu, text="save")
+		save = Button(top_menu, text="save", command=lambda:self.save_to_file())
 		save.pack(side=LEFT)
-		load = Button(top_menu, text="load")
+		load = Button(top_menu, text="load", command=lambda:self.import_from_file())
 		load.pack(side=LEFT)
 
-		self.entry = Entry(action_area)
+		self.entry = Entry(action_area, )
 		self.entry.pack(side=LEFT)
 		self.entry.insert(0,"type entry here")
 
 		add = Button(action_area, text="add", command=lambda:self.add_to_list())
 		add.pack(side=LEFT)
 
+	def save_to_file(self):
+		todo.save("todolist")
+
+	def import_from_file(self):
+		todo.load("todolist")
+		for task in todo.list:
+			gui.add_item(task)
+
 	def add_to_list(self):
 		item = self.entry.get()
-		gui.add_item(item)
+		todo_tasks = [task[1].lower() for task in todo.list]
+		if item == "type entry here":
+			pass
+		if item.lower() in todo_tasks:
+			self.entry.delete(0,END)
+			self.entry.insert(0,"type entry here")			
+			pass
+		else:
+			todo.additem(item)
+			gui.clear()
+			for task in todo.list:
+				gui.add_item(task)
+			self.entry.delete(0,END)
+			self.entry.insert(0,"type entry here")
 
 class Gui(object):
 	def __init__(self,master):
@@ -97,26 +115,12 @@ class Gui(object):
 	def add_item(self,item):
 		self.mainview.insert(END,item)
 
+	def clear(self):
+		self.mainview.delete(0,END)
+
 if __name__ == "__main__":
 
-	thingy = Todo()
-	thingy.additem("lol")
-	thingy.additem("kill the president")
-	thingy.additem("do laundry")
-	print thingy.list, os.getcwd()
-
-	thingy.reorder((thingy.getitem(0)),(thingy.getitem(2)))
-
-	print thingy.list
-
-	thingy.removeitem(1)
-
-	print thingy.list
-
-	thingy.save("sample")
-	thingy.load("loadtest")
-
-	print thingy.list
-	# root = Tk()
-	# gui = Gui(root)
-	# mainloop()
+	todo = Todo()
+	root = Tk()
+	gui = Gui(root)
+	mainloop()
