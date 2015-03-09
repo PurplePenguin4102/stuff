@@ -43,9 +43,9 @@ class Bin_num(object):
 
     def convert_1s(self):
         position = self.binvalue
-        for i in range(len(position)):
-            if position[i]: position[i] = 0
-            else: position[i] = 1
+        for i in position:
+            if i: i = 0
+            else: i = 1
 
         self.binvalue = position
 
@@ -61,6 +61,17 @@ class Bin_num(object):
                 carry = 1
 
         self.binvalue=temp1[::-1]
+        if self.btype == "uns":
+            self.get_dec()
+
+    def get_dec(self):
+        bit = len(self.binvalue)
+        multiplier = 2**(bit-1)
+        ans = 0
+        for i in self.binvalue:
+            ans += multiplier*i
+            multiplier /= 2
+        self.decvalue = ans
 
     def prettyprint(self,bit):
         if self.btype == "null":
@@ -75,13 +86,15 @@ class Bin_num(object):
 if __name__ == "__main__":
 
     b1 = Bin_num(11, bit=8)
-    b_2 = Bin_num(-125, btype = 'sig', bit=8)
-    b2 = Bin_num(-125, btype = "1s", bit=8)
-    b3 = Bin_num(-125, btype = "2s", bit=8)
+    b2 = Bin_num(125, btype = "uns", bit=8)
+    # b3 = Bin_num(-125, btype = "2s", bit=8)
 
     b1.prettyprint(8)
-    b_2.prettyprint(8)
+    # b_2.prettyprint(8)
     b2.prettyprint(8)
-    b3.prettyprint(8)
+    # b3.prettyprint(8)
+
+    b1.add_bin(b2)
+    b1.prettyprint(8)
 
     print -128 + 64 + 32 + 16 + 4 + 1
