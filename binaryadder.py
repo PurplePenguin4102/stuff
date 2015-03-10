@@ -2,9 +2,11 @@ import math
 
 class Bin_num(object):
 
-    def __init__(self, decvalue, btype="uns", bit = 8):
+    def __init__(self, decvalue=None, binary=None, btype="uns", bit = 8):
         
-        if (decvalue > 2**bit) or ((btype == "uns") and (decvalue < 0)):
+        if decvalue is None:
+            pass
+        elif (decvalue > 2**bit) or ((btype == "uns") and (decvalue < 0)):
             print "can't do that boss"
             btype = "null"
             self.decvalue = 0
@@ -12,6 +14,8 @@ class Bin_num(object):
             print "can't do that boss"
             btype = "null"
             self.decvalue = 0
+        else:
+            pass
 
         self.HASH = {"uns":"Unsigned binary",
                      "sig":"Sign bit binary",
@@ -19,9 +23,18 @@ class Bin_num(object):
                      "2s":"Two's complement binary",
                      "x128":"Excess 128/127 binary"}
         self.btype = btype
-        self.decvalue = decvalue
-        self._make_bin(bit)
-        
+
+        if decvalue:
+            self.decvalue = decvalue
+            self._make_bin(bit)
+            self.bit = bit
+        elif binary:
+            self.binvalue = binary
+            self.get_dec()
+            self.bit = len(binary)
+        else:
+            pass
+
     def _make_bin(self,bit):
 
         position = []
@@ -37,17 +50,17 @@ class Bin_num(object):
         elif (self.decvalue < 0) and (self.btype == "1s"):
             self.convert_1s()
         elif (self.decvalue < 0) and (self.btype == "2s"):
-            self.convert_1s()            
-            _b1 = Bin_num(1,btype = self.btype, bit=len(position))
-            self.add_bin(_b1)
+            self.convert_2s() 
+        else:
+            pass
 
     def convert_1s(self):
-        position = self.binvalue
-        for i in position:
-            if i: i = 0
-            else: i = 1
+        self.binvalue = self.logicnot()
 
-        self.binvalue = position
+    def convert_2s(self):
+        self.convert_1s()
+        _b1 = Bin_num(1, btype=self.btype, bit=len(self.binvalue))
+        self.add_bin(_b1)
 
     def add_bin(self,bin_no):
         temp1 = self.binvalue[::-1]
@@ -73,28 +86,57 @@ class Bin_num(object):
             multiplier /= 2
         self.decvalue = ans
 
-    def prettyprint(self,bit):
+    def prettyprint(self):
         if self.btype == "null":
             pass
         else:
             print str(self.decvalue), "in", str(len(self.binvalue)) + "-bit", self.HASH[self.btype] + ":"
-            if bit % 4 == 0:
-                print (("{}"*4+" ")*(bit/4)).format(*self.binvalue)
+            if self.bit % 4 == 0:
+                print (("{}"*4+" ")*(self.bit/4)).format(*self.binvalue)
             else:
-                print ("{}"*bit).format(*self.binvalue)
+                print ("{}"*self.bit).format(*self.binvalue)
+
+    def logicand(self, b):
+        ''' takes two binary values with the same bit and returns the bitwise logical 'and' between them. i.e. c = 1 iff a = 1 and b = 1'''
+        tempbin = []
+        for i in range(len(self.binvalue)):
+            if self.binvalue[i] + b.binvalue[i] == 2:
+                tempbin.append(1)
+            else:
+                tempbin.append(0)
+
+        binary = Bin_num(binary = tempbin)
+        return binary
+
+    def logicor(self, b):
+        ''' same as logicand but for or. c = 1 iff a = 1 or b = 1 '''
+        tempbin = []
+        for i in range(len(self.binvalue)):
+            if self.binvalue[i] + b.binvalue[i] != 0:
+                tempbin.append(1)
+            else:
+                tempbin.append(0)
+
+        binary = Bin_num(binary = tempbin)
+        return binary
+
+    def logicnot(self):
+        ''' flips all the bits of self and returns a binary'''
+        tempbin = self.binvalue[:]
+        for i in range(len(tempbin)):
+            if tempbin[i] == 1: tempbin[i] = 0
+            else: tempbin[i] = 1
+
+        binary = Bin_num(binary = tempbin)
+        return binary
+
 
 if __name__ == "__main__":
 
-    b1 = Bin_num(11, bit=8)
-    b2 = Bin_num(125, btype = "uns", bit=8)
-    # b3 = Bin_num(-125, btype = "2s", bit=8)
+    b1 = Bin_num(11, bit = 8)
+    notb1 = b1.logicnot()
+    nothing = b1.logicand(notb1)
+    everything = b1.logicor(notb1)
 
-    b1.prettyprint(8)
-    # b_2.prettyprint(8)
-    b2.prettyprint(8)
-    # b3.prettyprint(8)
-
-    b1.add_bin(b2)
-    b1.prettyprint(8)
-
-    print -128 + 64 + 32 + 16 + 4 + 1
+    nothing.prettyprint()
+    everything.prettyprint()
