@@ -77,6 +77,10 @@ class Bin_num(object):
         if self.btype == "uns":
             self.get_dec()
 
+    def logicadd_bin(self, bin):
+        "logical implementation of an unsigned adder"
+        pass
+
     def get_dec(self):
         bit = len(self.binvalue)
         multiplier = 2**(bit-1)
@@ -130,13 +134,47 @@ class Bin_num(object):
         binary = Bin_num(binary = tempbin)
         return binary
 
+    def logicnand(self, b):
+        tempbin = self.logicand(b)
+        binary = tempbin.logicnot()
+        return binary
+
+    def logicnor(self, b):
+        tempbin = self.logicor(b)
+        binary = tempbin.loginot()
+        return binary
+
+    def logicxor(self, b):
+        ''' implement xor using only nand gates'''
+        
+        # stage 0
+        in_1 = self
+        in_2 = self.logicnot()
+        in_3 = b
+        in_4 = b.logicnot()
+
+        # stage 1
+
+        in_1 = in_1.logicnand(in_4)
+        in_2 = in_2.logicnand(in_3)
+
+        # stage 2
+
+        out = in_1.logicnand(in_2)
+
+        return out
 
 if __name__ == "__main__":
 
-    b1 = Bin_num(11, bit = 8)
-    notb1 = b1.logicnot()
-    nothing = b1.logicand(notb1)
-    everything = b1.logicor(notb1)
+    test1 = Bin_num(binary = [0,0,1,1])
+    test2 = Bin_num(binary = [0,1,0,1])
 
-    nothing.prettyprint()
-    everything.prettyprint()
+    xor = test1.logicxor(test2)
+    xor.prettyprint()
+    # b1 = Bin_num(11, bit = 8)
+    # notb1 = b1.logicnot()
+    # nothing = b1.logicand(notb1)
+    # everything = b1.logicor(notb1)
+
+    # nothing.prettyprint()
+    # everything.prettyprint()
