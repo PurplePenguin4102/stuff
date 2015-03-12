@@ -54,6 +54,12 @@ class Bin_num(object):
         else:
             pass
 
+    def _flipbit(self, ind):
+        if self.binvalue[ind] == 0:
+            self.binvalue[ind] = 1
+        else:
+            self.binvalue[ind] = 0
+
     def convert_1s(self):
         self.binvalue = self.logicnot()
 
@@ -77,9 +83,58 @@ class Bin_num(object):
         if self.btype == "uns":
             self.get_dec()
 
-    def logicadd_bin(self, bin):
+    def onebit_adder(self, bin, carry):
         "logical implementation of an unsigned adder"
-        pass
+        if not ((self.bit, bin.bit, carry.bit) == (1, 1, 1)):
+            print "Did nothing, numbers weren't 1 bit"
+            return
+        else:
+            #stage 1
+            spart = self.logicxor(bin)
+            cout1 = self.logicand(bin)
+
+            #stage 2
+            s = spart.logicxor(carry)
+            cout2 = spart.logicand(carry)
+
+            #stage 3
+            carry_out = cout1.logicor(cout2)
+
+            return (s,carry_out)
+
+    def nbit_adder(self, bin):
+        if self.bit != bin.bit:
+            print "numbers must be the same bit"
+            return
+        else:
+            carry = Bin_num(binary = [0])
+            n = self.bit
+            ans = []
+            for i in range(n)[::-1]:
+                a = Bin_num(binary = [self.binvalue[i]])
+                b = Bin_num(binary = [bin.binvalue[i]])
+                (s, carry) = a.onebit_adder(b, carry)
+        
+                ans.insert(0, s.binvalue[0])
+            ansbin = Bin_num(binary = ans)
+
+            return ansbin, carry
+
+    def nbit_adder2s(self,bin):
+        '''detects overflow for 2s complement addition NOT CURRENTLY WORKING'''
+        (s, carry) = self.nbit_adder(bin)
+        
+        a = Bin_num(binary = [self.binvalue[0]])
+        b = Bin_num(binary = [bin.binvalue[0]])
+
+        ab = a.logicxor(b)
+        ab = ab.logicnot()
+
+        print a.binvalue, b.binvalue
+        print ab.binvalue, carry.binvalue
+        overflo = carry.logicxor(ab)
+
+        return (s, overflo)
 
     def get_dec(self):
         bit = len(self.binvalue)
@@ -154,23 +209,28 @@ class Bin_num(object):
         in_4 = b.logicnot()
 
         # stage 1
-
         in_1 = in_1.logicnand(in_4)
         in_2 = in_2.logicnand(in_3)
 
         # stage 2
-
         out = in_1.logicnand(in_2)
 
         return out
 
 if __name__ == "__main__":
 
-    test1 = Bin_num(binary = [0,0,1,1])
-    test2 = Bin_num(binary = [0,1,0,1])
+    test1 = Bin_num(binary = [1,1,1])
+    test1.prettyprint()
+    test2 = Bin_num(binary = [0,0,1])
+    test2.prettyprint()
 
-    xor = test1.logicxor(test2)
-    xor.prettyprint()
+
+
+    (ans, carry) = test1.nbit_adder2s(test2)
+
+    # ans.prettyprint()
+    ans.prettyprint()
+    carry.prettyprint()
     # b1 = Bin_num(11, bit = 8)
     # notb1 = b1.logicnot()
     # nothing = b1.logicand(notb1)
