@@ -1,0 +1,64 @@
+body{
+	font-family: Cambria, "Hoefler Text", Utopia, "Liberation Serif", "Nimbus Roman No9 L Regular", Times, "Times New Roman", serif;
+	
+	width: 60%;
+	color: black;
+	background-color: rgb(0,153,59);
+	font-size: 14px;
+	
+}
+p{
+	margin: 20px;
+	border: 1px dotted #BABABA;
+}
+img{
+	padding: 50px;
+	margin: 100px;
+	border-width: 10px; 
+	border-bottom-width: 50px;
+	border-color: red;
+	border-style: solid;
+}
+h1, h2, h3{
+	color: #99005E;
+	font-family: Constantia, "Lucida Bright", Lucidabright, "Lucida Serif", Lucida, "DejaVu Serif", "Bitstream Vera Serif", "Liberation Serif", Georgia, serif;
+
+}
+
+a{
+	text-decoration: none;
+	color: red;
+	font-weight: bold;
+}
+
+b{
+	color: white;
+}
+
+em{
+	color: magenta;
+}
+
+h1{
+	font-size: 3em;
+	text-transform: uppercase;
+	text-align: center;
+}
+
+h2{
+	font-size: 2em;
+}
+
+h3{
+	font-size: 1.5em;
+}
+.pink{
+	color: #FFFFFF;
+}
+.myclass{
+	padding: 20px;
+	margin: 40%;
+	border-style: dashed;
+	border-color: black;
+	border-width: 50px;
+}
